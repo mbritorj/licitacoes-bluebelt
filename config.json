@@ -1,0 +1,257 @@
+{
+  "_comentario": "Configuração do robô da Blue Belt. Termos são expressões regulares aplicadas ao objeto da licitação já em minúsculas e sem acentos. Peso 3 = termo forte (sozinho já qualifica); peso 1 ou 2 = termo fraco (precisa somar com outro). Uma licitação entra no painel quando a soma dos pesos chega em pontuacao_minima. Pesos negativos (exclusões) derrubam falsos positivos e objetos fora dos CNAEs da empresa (limpeza terceirizada, móveis, medicamentos etc.). As categorias seguem os CNAEs do cartão CNPJ de 23/10/2026.",
+  "uf_sede": "RJ",
+  "ufs": [
+    "RJ",
+    "ES",
+    "MG",
+    "SP"
+  ],
+  "ufs_por_categoria": {
+    "Manutenção e obras": [
+      "RJ"
+    ],
+    "Alimentação": [
+      "RJ"
+    ]
+  },
+  "modalidades": {
+    "4": "Concorrência Eletrônica",
+    "6": "Pregão Eletrônico",
+    "7": "Pregão Presencial",
+    "8": "Dispensa de Licitação"
+  },
+  "dias_a_frente": 365,
+  "pontuacao_minima": 3,
+  "valor_limite_me_epp": 80000,
+  "pausa_entre_chamadas_seg": 5,
+  "buscar_beneficio_me_epp": true,
+  "max_consultas_itens": 350,
+  "alertas_por_categoria": {
+    "Manutenção e obras": "Serviço de engenharia: costuma exigir CREA, responsável técnico e atestado com CAT",
+    "Alimentação": "Costuma exigir licença sanitária e cozinha própria"
+  },
+  "alertas_por_termo": [
+    [
+      "generos alimenticios|hortifruti|carnes?|pereciveis|merenda|alimentacao escolar",
+      "Alimento perecível ou merenda: confira logística de entrega e frequência"
+    ],
+    [
+      "toner|cartuch",
+      "Confira se aceita compatível ou exige original do fabricante"
+    ]
+  ],
+  "categorias": {
+    "Material de consumo": [
+      [
+        "materia(l|is) de (expediente|escritorio)|artigos de (escritorio|papelaria)|\\bpapelaria\\b",
+        3
+      ],
+      [
+        "materia(l|is) (escolar|didatico|pedagogico)|kits? escola(r|res)",
+        3
+      ],
+      [
+        "papel (a4|sulfite|oficio)|resmas?",
+        3
+      ],
+      [
+        "materia(l|is) de limpeza|produtos? de (limpeza|higiene)|materia(l|is) de higiene|saneantes",
+        3
+      ],
+      [
+        "higiene pessoal|papel higienico|papel toalha|sabonetes?|alcool (em gel|70)|desinfetantes?|detergentes?",
+        3
+      ],
+      [
+        "copa e cozinha|descartaveis|copos? descartave|utensilios (de cozinha|domesticos)",
+        3
+      ],
+      [
+        "agua mineral|garrafoes? de agua|galao de agua|agua potavel envasada",
+        3
+      ],
+      [
+        "generos alimenticios|alimentos? (nao )?pereciveis|cestas? basicas?|hortifruti",
+        3
+      ],
+      [
+        "\\bcafe\\b|acucar|biscoitos?|leite",
+        1
+      ],
+      [
+        "merenda|alimentacao escolar",
+        2
+      ],
+      [
+        "\\bepis?\\b|equipamentos? de protecao (individual|coletiva)|botas? de seguranca|capacetes? de seguranca|seguranca do trabalho",
+        3
+      ],
+      [
+        "uniformes? (profissiona(l|is)|de trabalho|operaciona(l|is))|fardamentos?|vestuario profissional|jalecos?",
+        3
+      ],
+      [
+        "uniformes?",
+        2
+      ],
+      [
+        "toners?|cartuchos?|suprimentos (de|para) (informatica|impressoras?)|cilindros? (de|para) impressora",
+        3
+      ],
+      [
+        "materia(l|is) de consumo",
+        2
+      ]
+    ],
+    "Material elétrico e construção": [
+      [
+        "materia(l|is) eletric(o|os)|materia(l|is) para (instalacoes|manutencao) eletric",
+        3
+      ],
+      [
+        "lampadas?|luminarias?|reatores?|disjuntores?|cabos? eletricos?|fios? eletricos?|fios? e cabos|eletrodutos?|tomadas? e interruptores",
+        3
+      ],
+      [
+        "materia(l|is) de construcao|materia(l|is) hidraulic(o|os)|materia(l|is) para (manutencao predial|obras|reparos)",
+        3
+      ],
+      [
+        "ferragens|ferramentas|\\b(tintas?|cimento|argamassa|tijolos?|areia|brita)\\b|tubos? e conexoes|loucas sanitarias|metais sanitarios",
+        2
+      ],
+      [
+        "materia(l|is) de manutencao",
+        2
+      ]
+    ],
+    "Manutenção e obras": [
+      [
+        "manutencao predial|manutencao (preventiva|corretiva|preventiva e corretiva)?\\s*(predial|das? (instalacoes|edificacoes|predios|imoveis|unidades|sedes?)|dos? (predios|imoveis|proprios))",
+        3
+      ],
+      [
+        "instalac\\w* eletric\\w*|manutencao eletric\\w*|servicos? (de )?eletric\\w*|eletrica predial|quadros? de (distribuicao|energia)|aterramento|spda|para-?raios",
+        3
+      ],
+      [
+        "(manutencao|instalacao|higienizacao|limpeza|desinstalacao)[^.;]{0,80}(ar[- ]?condicionados?|climatizac|refrigeracao|splits?\\b|\\bvrf\\b|chillers?|ventilacao|exaustao)",
+        3
+      ],
+      [
+        "ar[- ]?condicionados?|climatizac|\\bsplits?\\b",
+        1
+      ],
+      [
+        "instalac\\w* hidraulic\\w*|manutencao hidraulic\\w*|hidrossanitari|instalac\\w* sanitari\\w*|instalac\\w* de gas|rede de gas|gas encanado|desentupimento",
+        3
+      ],
+      [
+        "divisorias?|drywall|gesso acartonado|forros?\\b|esquadrias|armarios? embutidos?",
+        3
+      ],
+      [
+        "alvenaria|pintura (predial|interna|externa|de (paredes|fachada|predios|edificacoes|imoveis))|pequenos reparos|reparos? (predia(l|is)|em edificacoes)|adequac\\w* (de|do|da) (espaco|predio|sala|ambiente)",
+        3
+      ],
+      [
+        "reformas?|servicos? comuns de engenharia|obras? civis?|pequenas obras",
+        2
+      ],
+      [
+        "iluminacao publica|rede (de distribuicao|eletrica)|redes de distribuicao de energia|subestac|cabine primaria",
+        3
+      ],
+      [
+        "grupos? geradores?|geradores? de energia",
+        2
+      ],
+      [
+        "paisagismo|jardinagem|ajardinamento|areas verdes|manutencao de jardins|manutencao de pracas",
+        3
+      ],
+      [
+        "\\b(rocadas?|capina|podas?)\\b",
+        2
+      ],
+      [
+        "manutencao (preventiva |corretiva |preventiva e corretiva )?de (maquinas|equipamentos) (de uso geral|de cozinha|industriais)",
+        3
+      ]
+    ],
+    "Alimentação": [
+      [
+        "fornecimento de (refeicoes|alimentacao|lanches|marmit|quentinhas)|refeicoes (prontas|preparadas|transportadas)|alimentacao (preparada|pronta|transportada)",
+        3
+      ],
+      [
+        "marmit\\w+|quentinhas?|coffee ?break|kits? lanches?|\\bbuffet\\b|servico de lanches",
+        3
+      ],
+      [
+        "refeicoes|lanches",
+        2
+      ]
+    ]
+  },
+  "fabricantes_destaque": [],
+  "exclusoes": [
+    [
+      "medicament|odontolog|laboratori(al|o)|cirurgic|ortes|protes|insumos? (de|para) saude|materia(l|is) medic|equipamentos? medic|luvas de procedimento|dietas? enter|formulas? infant",
+      -6
+    ],
+    [
+      "agricultura familiar|chamada publica",
+      -6
+    ],
+    [
+      "combustive|\\bpneus?\\b|pecas (automotivas|para veiculos)|veiculos?|frota|lubrificantes",
+      -5
+    ],
+    [
+      "pavimenta|drenagem|esgotamento|rede de esgoto|abastecimento de agua|saneamento basico|terraplanagem|asfalt|recapeamento|construcao de (escola|creche|unidade|ponte|ginasio|quadra|hospital|posto|praca|sede|centro|predio|edificio)",
+      -5
+    ],
+    [
+      "servicos? (continuados? )?(de )?limpeza(?![^.;]{0,60}(ar[- ]?condicionad|caixas? d.?agua|reservatorio|calhas|fachada|dutos|splits?))|limpeza (e conservacao predial|hospitalar|de vias|de fossa)|conservacao e limpeza|mao de obra (terceirizada|dedicada|exclusiva)|cessao de mao de obra|postos? de trabalho|terceirizac|varricao|coleta (de )?(lixo|residuos)|residuos solidos|vigilancia|portaria|recepcionista",
+      -5
+    ],
+    [
+      "dedetiza|desinsetiza|desratiza|controle de pragas",
+      -5
+    ],
+    [
+      "mobiliario|moveis|cadeiras|mesas|eletrodomesticos|eletroportateis",
+      -4
+    ],
+    [
+      "uniformes? escola(r|res)|material esportivo|instrumentos musicais|brinquedos",
+      -4
+    ],
+    [
+      "elevador|escadas? rolantes",
+      -5
+    ],
+    [
+      "transporte escolar|locacao de veiculos|fretamento",
+      -5
+    ],
+    [
+      "software|\\bswitch(es)?\\b|servidor(es)? de rede",
+      -3
+    ],
+    [
+      "grafica|impressao de|confeccao de (banners|placas|faixas)|outsourcing de impressao|locacao de impressoras",
+      -3
+    ],
+    [
+      "energia eletrica (fornecimento|distribuicao)|fornecimento de energia|gas liquefeito|\\bglp\\b|gas de cozinha",
+      -3
+    ],
+    [
+      "animais|racao|veterinari",
+      -5
+    ]
+  ]
+}
