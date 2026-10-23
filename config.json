@@ -1,5 +1,7 @@
 {
-  "_comentario": "Configuração do robô da Blue Belt. Termos são expressões regulares aplicadas ao objeto da licitação já em minúsculas e sem acentos. Peso 3 = termo forte (sozinho já qualifica); peso 1 ou 2 = termo fraco (precisa somar com outro). Uma licitação entra no painel quando a soma dos pesos chega em pontuacao_minima. Pesos negativos (exclusões) derrubam falsos positivos e objetos fora dos CNAEs da empresa (limpeza terceirizada, móveis, medicamentos etc.). As categorias seguem os CNAEs do cartão CNPJ de 23/10/2026.",
+  "_comentario": "Configuração do robô da Blue Belt. Termos são expressões regulares aplicadas ao objeto da licitação já em minúsculas e sem acentos. Peso 3 = termo forte (sozinho já qualifica); peso 1 ou 2 = termo fraco (precisa somar com outro). Uma licitação entra no painel quando a soma dos pesos chega em pontuacao_minima. Pesos negativos (exclusões) derrubam falsos positivos e objetos fora dos CNAEs da empresa (limpeza terceirizada, móveis, medicamentos etc.). As categorias seguem os CNAEs do cartão CNPJ de 23/10/2026. Desde 23/10/2026 o painel não consulta mais a lista de licitações no PNCP: lê a coleta compartilhada publicada pelo repositório licitacoes-ti em 'fonte_bruto' e só consulta os itens (ME/EPP) das licitações selecionadas. 'padrao_servico' identifica objetos de prestação de serviço: neles as categorias de material não contam (evita que 'reforma com fornecimento de ferramentas' entre como material fora do RJ), a menos que o objeto também case com 'padrao_fornecimento'.",
+  "fonte_bruto": "https://mbritorj.github.io/licitacoes-ti/bruto/",
+  "descricao_escopo": "materiais em RJ, ES, MG e SP · manutenção, obras e alimentação só no RJ",
   "uf_sede": "RJ",
   "ufs": [
     "RJ",
@@ -15,13 +17,6 @@
       "RJ"
     ]
   },
-  "modalidades": {
-    "4": "Concorrência Eletrônica",
-    "6": "Pregão Eletrônico",
-    "7": "Pregão Presencial",
-    "8": "Dispensa de Licitação"
-  },
-  "dias_a_frente": 365,
   "pontuacao_minima": 3,
   "valor_limite_me_epp": 80000,
   "pausa_entre_chamadas_seg": 5,
@@ -102,6 +97,10 @@
       [
         "materia(l|is) de consumo",
         2
+      ],
+      [
+        "\\b(paes|salgados|panificacao|carnes|acougue|hortifrutigranjeiros|laticinios|frutas|verduras|legumes|frios)\\b",
+        2
       ]
     ],
     "Material elétrico e construção": [
@@ -118,12 +117,16 @@
         3
       ],
       [
-        "ferragens|ferramentas|\\b(tintas?|cimento|argamassa|tijolos?|areia|brita)\\b|tubos? e conexoes|loucas sanitarias|metais sanitarios",
+        "ferragens|\\b(tintas?|cimento|argamassa|tijolos?|areia|brita)\\b|tubos? e conexoes|loucas sanitarias|metais sanitarios",
         2
       ],
       [
-        "materia(l|is) de manutencao",
-        2
+        "ferramentas",
+        1
+      ],
+      [
+        "materia(l|is)( de consumo)?\\s*(de|para|destinad\\w* (a|ao|as|aos)) (a |o )?(execucao (de|da) )?(manutencao|reparos|conservacao)",
+        3
       ]
     ],
     "Manutenção e obras": [
@@ -136,7 +139,7 @@
         3
       ],
       [
-        "(manutencao|instalacao|higienizacao|limpeza|desinstalacao)[^.;]{0,80}(ar[- ]?condicionados?|climatizac|refrigeracao|splits?\\b|\\bvrf\\b|chillers?|ventilacao|exaustao)",
+        "(manutencao|instalacao|higienizacao|limpeza|desinstalacao)[^.;]{0,160}(ar[- ]?condicionados?|climatizac|refrigeracao|splits?\\b|\\bvrf\\b|chillers?|ventilacao|exaustao)",
         3
       ],
       [
@@ -250,8 +253,34 @@
       -3
     ],
     [
-      "animais|racao|veterinari",
+      "\\b(animais|racao|racoes)\\b|veterinari",
       -5
+    ],
+    [
+      "medicina (e seguranca )?do trabalho|saude ocupacional",
+      -5
+    ],
+    [
+      "auxilio[- ]alimentacao|vale[- ]alimentacao|cartao (de )?alimentacao|vale[- ]refeicao",
+      -6
+    ],
+    [
+      "medico-?hospitalar|agulhas|seringas|glicemia|hospedagem",
+      -6
+    ],
+    [
+      "refrigerador|geladeira|freezer",
+      -4
+    ],
+    [
+      "impressao (monocromatica|colorida|corporativa)|reprografia|copias de documentos",
+      -4
     ]
-  ]
+  ],
+  "categorias_material": [
+    "Material de consumo",
+    "Material elétrico e construção"
+  ],
+  "padrao_servico": "prestacao (de |dos |integral (de |do )?)?servic|servicos? (continuad|continuos|tecnicos|especializad|comuns? de engenharia|de engenharia|de manutencao|de lavanderia|de impressao|de reforma|de limpeza|de nutricao|de hospedagem|de buffet)|execucao (da |de |das )?(obra|servic|reforma)|obras? (de|da) (reforma|construcao|ampliacao)|empresa (especializada )?(de|em) engenharia",
+  "padrao_fornecimento": "^\\W*(\\[[^\\]]*\\]\\W*)?(registro (formal )?de precos?\\W+(para\\W+)?(a\\W+)?(futuras?\\W+)?(e\\W+)?(eventua(l|is)\\W+)?)?(aquisic|compra)|(aquisic\\w+|(?<!com )(?<!e )fornecimento|compras?)[^.;]{0,40}?(materia(l|is)|produtos?|generos|insumos|lampadas|epis?|equipamentos de protecao|agua mineral|toners?|cartuchos?|kits?|cestas|utensilios|uniformes)"
 }

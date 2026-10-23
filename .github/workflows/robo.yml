@@ -2,44 +2,48 @@ name: Robô de licitações Blue Belt
 
 on:
   schedule:
-    # horários em UTC: 09:45 = 06:45 em Brasília (todo dia) e 15:45 = 12:45 (dias úteis)
-    - cron: "45 9 * * *"
-    - cron: "45 15 * * 1-5"
+    # horários em UTC: 11:00 = 08:00 em Brasília (todo dia) e 17:00 = 14:00 (dias úteis),
+    # depois da coleta compartilhada do repositório licitacoes-ti (06:30 e 12:30)
+    - cron: "0 11 * * *"
+    - cron: "0 17 * * 1-5"
   workflow_dispatch: {}   # botão "Run workflow" para rodar na hora
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: robo-licitacoes-bluebelt
   cancel-in-progress: false
 
-jobs:
-  coleta:
-    runs-on: ubuntu-latest
-    timeout-minutes: 150
-    steps:
-      - uses: actions/checkout@v5
+env:
+  SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
 
-      - uses: actions/setup-python@v6
+jobs:
+  painel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Testar a classificação
         run: python tests/teste_classificacao.py
+      - name: Montar o painel a partir da coleta compartilhada
+        # a URL da coleta fica em config.json ("fonte_bruto")
+        run: python painel.py --anterior "$SITE_URL/data.json" --site site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
 
-      - name: Coletar licitações no PNCP
-        run: python robo.py
-
-      - name: Publicar resultado
-        run: |
-          git config user.name "robo-licitacoes"
-          git config user.email "actions@users.noreply.github.com"
-          git add docs/data.json
-          if git diff --cached --quiet; then
-            echo "Sem mudanças."
-          else
-            git commit -m "Atualiza licitações $(TZ=America/Sao_Paulo date '+%d/%m/%Y %H:%M')"
-            git pull --rebase
-            git push
-          fi
+  publicar:
+    needs: painel
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

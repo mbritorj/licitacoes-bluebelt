@@ -3,7 +3,7 @@ Roda antes de cada coleta no GitHub Actions; se falhar, a coleta não acontece."
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from robo import Classificador, aplicar_regras_uf
+from pncp import Classificador
 
 cfg = json.loads((Path(__file__).resolve().parent.parent / "config.json").read_text(encoding="utf-8"))
 c = Classificador(cfg)
@@ -52,6 +52,13 @@ NAO_DEVE = [
     "Aquisição de switches e servidores de rede",
     "Serviços de vigilância patrimonial armada",
     "Aquisição de ração para animais do canil",
+    # falsos positivos vistos na primeira coleta real (23/10/2026)
+    "Prestação de serviços de lavanderia, sob demanda, incluindo coleta e lavagem de uniformes e fardamentos",
+    "Contratação de empresa para prestação de serviços de medicina e segurança do trabalho",
+    "Contratação de empresa especializada na prestação de serviços de fornecimento e gerenciamento de auxílio-alimentação",
+    "Aquisição de refrigerador vertical para armazenamento de gêneros alimentícios",
+    "Registro de preços para aquisição de insumos e dispositivos médico-hospitalares descartáveis",
+    "Contratação de empresa especializada na prestação de serviços de impressão monocromática, cópias, com fornecimento de papel A4 e toner",
 ]
 
 # serviço fora do RJ não entra; material fora do RJ entra
@@ -61,6 +68,12 @@ POR_UF = [
     ("Fornecimento de refeições prontas para servidores", "MG", False),
     ("Aquisição de material de limpeza", "ES", True),
     ("Aquisição e instalação de lâmpadas e material elétrico com manutenção elétrica", "SP", True),
+    # serviço fora do RJ não pode entrar como material por citar ferramentas ou materiais
+    ("Contratação de empresa especializada para execução da obra de reforma da UBS, com fornecimento de materiais, mão de obra e ferramentas", "MG", False),
+    ("Contratação de empresa especializada para a prestação de serviços continuados de manutenção preventiva e corretiva em equipamentos de climatização (ar-condicionado), com ferramentas", "SP", False),
+    ("Contratação de empresa especializada para prestação de serviços contínuos de nutrição e alimentação escolar, com fornecimento de gêneros alimentícios", "SP", False),
+    ("Contratação de empresa para fornecimento de materiais de construção, com transporte incluso", "MG", True),
+    ("Contratação de empresa especializada para manutenção predial preventiva e corretiva com fornecimento de materiais e ferramentas", "RJ", True),
 ]
 
 falhas = 0
@@ -75,9 +88,8 @@ for txt in NAO_DEVE:
     falhas += not ok
     print(("OK   " if ok else "FALHA"), r["pontos"], r["termos"], r["vetos"], "|", txt[:80])
 for txt, uf, esperado in POR_UF:
-    r = c.classificar(txt)
-    entra = r["relevante"] and aplicar_regras_uf(r, uf, cfg)
-    ok = entra == esperado
+    r = c.classificar(txt, uf)
+    ok = r["relevante"] == esperado
     falhas += not ok
     print(("OK   " if ok else "FALHA"), uf, r["categorias"], "|", txt[:80])
 print("falhas:", falhas)
