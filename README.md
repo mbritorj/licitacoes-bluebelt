@@ -9,7 +9,7 @@ Usa a coleta diária do PNCP (Portal Nacional de Contratações Públicas), sepa
   - **Material elétrico e construção**: material elétrico, lâmpadas e luminárias, material de construção e hidráulico.
   - **Manutenção e obras**: manutenção predial, instalação elétrica, ar-condicionado, hidráulica, divisórias e forros, pintura e pequenos reparos, iluminação pública e rede elétrica, paisagismo.
   - **Alimentação**: refeições prontas, quentinhas, coffee break.
-- Abrangência: materiais em RJ, ES, MG e SP; manutenção, obras e alimentação só no RJ, porque exigem equipe no local.
+- Abrangência: materiais em todo o Brasil (27 UFs); manutenção, obras e alimentação só no RJ, porque exigem equipe no local. Para mudar, edite `ufs` e `ufs_por_categoria` no `config.json`.
 - Ficam de fora objetos que a empresa não tem CNAE para atender, mesmo que pareçam próximos: limpeza terceirizada com mão de obra, vigilância, dedetização, móveis, eletrodomésticos, uniformes escolares, medicamentos e material hospitalar, veículos, obras de pavimentação e construção de prédios, chamadas públicas da agricultura familiar.
 - Cada licitação traz avisos práticos: serviço de engenharia (CREA e responsável técnico), alimentação (licença sanitária), merenda e perecíveis (logística), toner (original ou compatível) e entrega fora do RJ.
 - Para cada licitação encontrada, o robô lê os itens no PNCP e marca se há participação exclusiva ou cota para ME/EPP. A Blue Belt é ME.

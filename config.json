@@ -1,14 +1,9 @@
 {
   "_comentario": "Configuração do robô da Blue Belt. Termos são expressões regulares aplicadas ao objeto da licitação já em minúsculas e sem acentos. Peso 3 = termo forte (sozinho já qualifica); peso 1 ou 2 = termo fraco (precisa somar com outro). Uma licitação entra no painel quando a soma dos pesos chega em pontuacao_minima. Pesos negativos (exclusões) derrubam falsos positivos e objetos fora dos CNAEs da empresa (limpeza terceirizada, móveis, medicamentos etc.). As categorias seguem os CNAEs do cartão CNPJ de 23/10/2026. Desde 23/10/2026 o painel não consulta mais a lista de licitações no PNCP: lê a coleta compartilhada publicada pelo repositório licitacoes-ti em 'fonte_bruto' e só consulta os itens (ME/EPP) das licitações selecionadas. 'padrao_servico' identifica objetos de prestação de serviço: neles as categorias de material não contam (evita que 'reforma com fornecimento de ferramentas' entre como material fora do RJ), a menos que o objeto também case com 'padrao_fornecimento'.",
   "fonte_bruto": "https://mbritorj.github.io/licitacoes-ti/bruto/",
-  "descricao_escopo": "materiais em RJ, ES, MG e SP · manutenção, obras e alimentação só no RJ",
+  "descricao_escopo": "materiais em todo o Brasil · manutenção, obras e alimentação só no RJ",
   "uf_sede": "RJ",
-  "ufs": [
-    "RJ",
-    "ES",
-    "MG",
-    "SP"
-  ],
+  "ufs": "todas",
   "ufs_por_categoria": {
     "Manutenção e obras": [
       "RJ"
