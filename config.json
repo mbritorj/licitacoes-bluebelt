@@ -17,6 +17,8 @@
   "pausa_entre_chamadas_seg": 5,
   "buscar_beneficio_me_epp": true,
   "max_consultas_itens": 350,
+  "buscar_arquivos": true,
+  "max_consultas_arquivos": 300,
   "alertas_por_categoria": {
     "Manutenção e obras": "Serviço de engenharia: costuma exigir CREA, responsável técnico e atestado com CAT",
     "Alimentação": "Costuma exigir licença sanitária e cozinha própria"

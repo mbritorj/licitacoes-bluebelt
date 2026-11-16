@@ -13,6 +13,8 @@ Usa a coleta diária do PNCP (Portal Nacional de Contratações Públicas), sepa
 - Ficam de fora objetos que a empresa não tem CNAE para atender, mesmo que pareçam próximos: limpeza terceirizada com mão de obra, vigilância, dedetização, móveis, eletrodomésticos, uniformes escolares, medicamentos e material hospitalar, veículos, obras de pavimentação e construção de prédios, chamadas públicas da agricultura familiar.
 - Cada licitação traz avisos práticos: serviço de engenharia (CREA e responsável técnico), alimentação (licença sanitária), merenda e perecíveis (logística), toner (original ou compatível) e entrega fora do RJ.
 - Para cada licitação encontrada, o robô lê os itens no PNCP e marca se há participação exclusiva ou cota para ME/EPP. A Blue Belt é ME.
+- Para cada licitação, o robô também lista os arquivos publicados no PNCP (edital, termo de referência, anexos), com link direto para baixar. Licitações sem arquivo são consultadas de novo a cada 12 horas, porque alguns órgãos anexam o edital depois.
+- Cada licitação tem os botões **Tenho interesse**, **Analisada** e **Descartar**. As marcações ficam guardadas no navegador; para levar a outro computador ou guardar cópia, use **Exportar marcações** e **Importar marcações**. O filtro "Minha análise" mostra só as que ainda não foram analisadas, as de interesse etc., e o CSV traz a coluna `minha_analise`.
 - Roda no GitHub Actions às 08:00 (todo dia) e às 14:00 (dias úteis).
 
 ## De onde vêm os dados (desde 23/10/2026)
@@ -44,6 +46,7 @@ Tudo fica em `config.json`, que dá para editar direto no site do GitHub (ícone
 - `exclusoes`: termos que derrubam falsos positivos e objetos fora do CNAE.
 - `alertas_por_categoria` e `alertas_por_termo`: avisos que aparecem no cartão de cada licitação.
 - `max_consultas_itens`: quantas contratações têm os itens lidos por rodada.
+- `buscar_arquivos` e `max_consultas_arquivos`: liga a lista de arquivos do PNCP e limita quantas contratações são consultadas por rodada (o resto fica para as rodadas seguintes).
 - `padrao_servico` e `padrao_fornecimento`: identificam objetos de prestação de serviço e de compra de bens.
 - `fonte_bruto`: endereço da coleta compartilhada.
 - `valor_limite_me_epp`: valor até o qual a licitação é marcada como faixa de ME/EPP (R$ 80 mil, art. 48 da LC 123).
